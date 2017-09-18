@@ -15,6 +15,7 @@ class GameViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var titleTextField: UITextField!
     
     var imagePicker = UIImagePickerController()
+    var book : Book? = nil
     
     //////////////////////////// ////////////////////////////
     
@@ -45,13 +46,21 @@ class GameViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func addTapped(_ sender: Any) {
         
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
-        let book = Book(context: context)
-        book.title = titleTextField.text
-        book.image = (UIImagePNGRepresentation(gameImageView.image!)! as NSData)
-        
+        if book != nil {
+            book!.title = titleTextField.text
+            book!.image = UIImagePNGRepresentation(gameImageView.image! as ?NSData)
+            
+        } else {
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            
+            let book = Book(context: context)
+            book.title = titleTextField.text
+            book.image = (UIImagePNGRepresentation(gameImageView.image!)! as NSData)
+            
+        }
         
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
+        navigationController!.popViewController(animated: true)
     }
 }

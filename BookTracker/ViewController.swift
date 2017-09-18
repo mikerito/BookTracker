@@ -46,5 +46,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.imageView?.image = UIImage(data: book.image! as Data)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         let book = books[indexPath.row]
+        performSegue(withIdentifier: "addImage", sender: book)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nextVC = segue.destination as! GameViewController
+        nextVC.book = sender as? Book
+    }
 }
 
